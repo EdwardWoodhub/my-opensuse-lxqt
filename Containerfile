@@ -5,7 +5,7 @@ ARG OS_VERSION=16.0
 # 直接以目标操作系统为基础镜像，不再需要 ghcr 的 toolkit 阶段
 FROM ${OS_IMAGE}:${OS_VERSION}
 
-ARG REPO=ghcr.io/your-org/my-wayland-opensuse-lite-vm
+ARG REPO=ghcr.io/your-org/my-wayland-opensuse-vm
 ARG VERSION=latest
 
 ENV REPO=${REPO}
@@ -173,4 +173,4 @@ RUN echo "IMAGE_REPO=\"${REPO}\"" >> /etc/os-release && \
     echo "IMAGE_TAG=\"${VERSION}\"" >> /etc/os-release && \
     echo "IMAGE=\"${REPO}:${VERSION}\"" >> /etc/os-release && \
     echo "TIMESTAMP=\"$(date +'%Y%m%d%H%M%S')\"" >> /etc/os-release && \
-    echo "GRUB_ENTRY_NAME=\"my-wayland-opensuse-lite-vm\"" >> /etc/os-release
+    echo "GRUB_ENTRY_NAME=\"my-wayland-opensuse-vm\"" >> /etc/os-release
