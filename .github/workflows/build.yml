@@ -15,8 +15,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  OCI_IMAGE_NAME: my-wayland-opensuse-lite-vm
-  ISO_BASE_NAME: my-wayland-opensuse-lite-iso
+  OCI_IMAGE_NAME: my-wayland-opensuse-vm
+  ISO_BASE_NAME: my-wayland-opensuse-iso
 
 jobs:
   build:
