@@ -128,18 +128,20 @@ RUN groupadd -f wheel && \
 # ----------------------------------------------------
 RUN mkdir -p /etc/elemental && \
 printf 'install:\n\
-snapshotter:\n\
-type: btrfs\n\
-partitions:\n\
-recovery:\n\
-size: 8192\n\
-filesystem: btrfs\n\
-state:\n\
-size: 30720\n\
-filesystem: btrfs\n\
-persistent:\n\
-size: 0\n\
-filesystem: btrfs\n' > /etc/elemental/config.yaml
+  snapshotter:\n\
+    type: btrfs\n\
+  partitions:\n\
+    recovery:\n\
+      size: 8192\n\
+      filesystem: btrfs\n\
+    state:\n\
+      size: 30720\n\
+      filesystem: btrfs\n\
+    persistent:\n\
+      size: 0\n\
+      filesystem: btrfs\n' > /etc/elemental/config.yaml
+
+
 
 # ----------------------------------------------------
 # 6. 注入持久化目录初始化脚本与 Systemd 服务 (解决空寻址与桌面失忆)
