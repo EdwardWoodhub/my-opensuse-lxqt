@@ -14,7 +14,9 @@ ENV VERSION=${VERSION}
 # 1. 补充 openSUSE Leap 16.0 官方与 M17N 字体社区源
 RUN zypper --non-interactive ar -cf -p 90 https://download.opensuse.org/distribution/leap/16.0/repo/oss/ oss || true && \
     zypper --non-interactive ar -cf -p 90 https://download.opensuse.org/distribution/leap/16.0/repo/non-oss/ non-oss || true && \
-    zypper --non-interactive ar -cf -p 90 https://download.opensuse.org/repositories/M17N:/fonts/16.0/ M17N-fonts || true
+    zypper --non-interactive ar -cf -p 95 https://download.opensuse.org/repositories/M17N:/fonts/16.0/ M17N-fonts || true && \
+    zypper --non-interactive ar -cf -p 95 https://download.opensuse.org/repositories/utilities/16.0/ utilities || true && \
+    zypper --non-interactive ar -cf -p 95 https://download.opensuse.org/repositories/openSUSE:/Factory/standard/ factory || true
 
 # 2. 自动信任导入 GPG 密钥并刷新源缓存
 RUN zypper --non-interactive --gpg-auto-import-keys refresh
@@ -30,6 +32,7 @@ RUN ARCH=$(uname -m); \
         ${ADD_PKGS} \
         at-spi2-core \
         audit \
+        bandwhich \
         btop \
         btrfsmaintenance \
         btrfsprogs \
@@ -85,6 +88,7 @@ RUN ARCH=$(uname -m); \
         python3 \
         qt6-wayland \
         qterminal \
+        regclient \
         rsync \
         screengrab \
         sddm \
