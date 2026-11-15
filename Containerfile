@@ -28,7 +28,7 @@ RUN ARCH=$(uname -m); \
         ADD_PKGS+=" shim"; \
         [ "${ARCH}" = "aarch64" ] && ARCH="arm64"; \
     fi; \
-    zypper --non-interactive --gpg-auto-import-keys install --no-recommends -- \
+    zypper --non-interactive --gpg-auto-import-keys install -- \
         ${ADD_PKGS} \
         7zip \
         adwaita-icon-theme \
