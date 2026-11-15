@@ -199,6 +199,28 @@ RUN mkdir -p /etc/sysconfig /etc/systemd/system/graphical.target.wants && \
     ln -sf /usr/lib/systemd/system/sddm.service /etc/systemd/system/display-manager.service && \
     ln -sf /usr/lib/systemd/system/sddm.service /etc/systemd/system/graphical.target.wants/sddm.service
 
+# ----------------------------------------------------
+# 7.5 固化 WayVNC 服务 (彻底隐藏端口，依赖本地持久化配置)
+# ----------------------------------------------------
+RUN printf "[Unit]\n\
+Description=WayVNC Server for Peter\n\
+After=network.target\n\
+\n\
+[Service]\n\
+Type=simple\n\
+User=peter\n\
+Environment=WAYLAND_DISPLAY=wayland-0\n\
+Environment=XDG_RUNTIME_DIR=/run/user/1001\n\
+Environment=HOME=/home/peter\n\
+ExecStartPre=-/usr/bin/wlr-randr --output Virtual-1 --mode 1920x1080\n\
+ExecStart=/usr/bin/wayvnc -C /home/peter/.config/wayvnc/config\n\
+Restart=always\n\
+RestartSec=3\n\
+\n\
+[Install]\n\
+WantedBy=multi-user.target\n" > /etc/systemd/system/wayvnc-peter.service && \
+    systemctl enable wayvnc-peter.service
+
 # ------------------------------
 # 8. 启用服务并执行 Elemental 初始化
 # ------------------------------
