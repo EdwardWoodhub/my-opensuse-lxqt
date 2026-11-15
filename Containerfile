@@ -200,26 +200,31 @@ RUN mkdir -p /etc/sysconfig /etc/systemd/system/graphical.target.wants && \
     ln -sf /usr/lib/systemd/system/sddm.service /etc/systemd/system/graphical.target.wants/sddm.service
 
 # ----------------------------------------------------
-# 7.5 固化 WayVNC 服务 (彻底隐藏端口，依赖本地持久化配置)
+# 7.5 固化 WayVNC 服务 (彻底隐藏端口，并全自动穿透防火墙)
 # ----------------------------------------------------
-RUN printf "[Unit]\n\
+RUN printf '[Unit]\n\
 Description=WayVNC Server for Peter\n\
-After=network.target\n\
+After=network.target firewalld.service\n\
 \n\
 [Service]\n\
 Type=simple\n\
 User=peter\n\
 Environment=WAYLAND_DISPLAY=wayland-0\n\
-Environment=XDG_RUNTIME_DIR=/run/user/1001\n\
+Environment=XDG_RUNTIME_DIR=/run/user/1000\n\
 Environment=HOME=/home/peter\n\
 ExecStartPre=-/usr/bin/wlr-randr --output Virtual-1 --mode 1920x1080\n\
+# 动态读取家目录配置，在服务拉起前自动以 root 身份放行防火墙端口\n\
+ExecStartPre=+/usr/bin/bash -c "PORT=$$(grep port= /home/peter/.config/wayvnc/config | cut -d= -f2); firewall-cmd --add-port=$${PORT}/tcp"\n\
 ExecStart=/usr/bin/wayvnc -C /home/peter/.config/wayvnc/config\n\
+# 服务停止或崩溃时，自动回收关掉该端口\n\
+ExecStopPost=+/usr/bin/bash -c "PORT=$$(grep port= /home/peter/.config/wayvnc/config | cut -d= -f2); firewall-cmd --remove-port=$${PORT}/tcp"\n\
 Restart=always\n\
 RestartSec=3\n\
 \n\
 [Install]\n\
-WantedBy=multi-user.target\n" > /etc/systemd/system/wayvnc-peter.service && \
+WantedBy=multi-user.target\n' > /etc/systemd/system/wayvnc-peter.service && \
     systemctl enable wayvnc-peter.service
+
 
 # ------------------------------
 # 8. 启用服务并执行 Elemental 初始化
