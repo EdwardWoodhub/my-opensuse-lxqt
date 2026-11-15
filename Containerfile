@@ -210,7 +210,7 @@ After=network.target firewalld.service\n\
 Type=simple\n\
 User=peter\n\
 Environment=WAYLAND_DISPLAY=wayland-0\n\
-Environment=XDG_RUNTIME_DIR=/run/user/1000\n\
+Environment=XDG_RUNTIME_DIR=/run/user/1001\n\
 Environment=HOME=/home/peter\n\
 ExecStartPre=-/usr/bin/wlr-randr --output Virtual-1 --mode 1920x1080\n\
 # 动态读取家目录配置，在服务拉起前自动以 root 身份放行防火墙端口\n\
