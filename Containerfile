@@ -66,6 +66,7 @@ RUN ARCH=$(uname -m); \
         konsole \
         labwc \
         less \
+        libinput-tools \
         lvm2 \
         lximage-qt \
         lxqt-labwc-session \
