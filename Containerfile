@@ -109,6 +109,7 @@ RUN ARCH=$(uname -m); \
         timezone \
         uv \
         vim \
+        wayvnc \
         wdisplays \
         which \
         wl-clipboard \
