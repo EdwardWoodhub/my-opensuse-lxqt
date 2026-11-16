@@ -110,6 +110,7 @@ RUN ARCH=$(uname -m); \
         timezone \
         uv \
         vim \
+        vnstat \
         wayvnc \
         wdisplays \
         which \
